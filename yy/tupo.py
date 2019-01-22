@@ -185,7 +185,6 @@ class ToPo:
         testbutton = pag.locateOnScreen(self.sb)
         if testbutton != None:
             btnx, btny = pag.center(testbutton)
-            self.succ_num += 1
         return btnx, btny
 
     # 结束
@@ -324,8 +323,10 @@ class ToPo:
             time.sleep(3)
             mt.stop()
             runtime = mt.lasted
+            print(runtime)
             if runtime[0] > 0 or runtime[1] > 0 or runtime[2] > 0 or runtime[3] > 0:
                 pag.click(self.shuaxinbtnx, self.shuaxinbtny)
+                time.sleep(3)
                 btnx,btny = self.findfigure(self.qd)
                 if btnx == -1 or btny == 0:
                     print("未找到确定，程序结束")
@@ -334,33 +335,37 @@ class ToPo:
                 pag.click(btnx, btny)
             elif runtime[4] >= 5:
                 pag.click(self.shuaxinbtnx, self.shuaxinbtny)
+                time.sleep(3)
                 btnx, btny = self.findfigure(self.qd)
                 if btnx == -1 or btny == 0:
                     print("未找到确定，程序结束")
                     return False
                 btnx = btnx + random.randint(-self.maxrand - 5, self.maxrand + 5)
                 pag.click(btnx, btny)
-            elif runtime[4] <= 5 and runtime[4] >=4 :
+            elif runtime[4] < 5 and runtime[4] >=4 :
                 time.sleep(1*60)
                 pag.click(self.shuaxinbtnx, self.shuaxinbtny)
+                time.sleep(3)
                 btnx, btny = self.findfigure(self.qd)
                 if btnx == -1 or btny == 0:
                     print("未找到确定，程序结束")
                     return False
                 btnx = btnx + random.randint(-self.maxrand - 5, self.maxrand + 5)
                 pag.click(btnx, btny)
-            elif runtime[4] <= 4 and runtime[4] >= 3:
+            elif runtime[4] < 4 and runtime[4] >= 3:
                 time.sleep(2 * 60)
                 pag.click(self.shuaxinbtnx, self.shuaxinbtny)
+                time.sleep(3)
                 btnx, btny = self.findfigure(self.qd)
                 if btnx == -1 or btny == 0:
                     print("未找到确定，程序结束")
                     return False
                 btnx = btnx + random.randint(-self.maxrand - 5, self.maxrand + 5)
                 pag.click(btnx, btny)
-            elif runtime[4] <= 3 and runtime[4] >= 2:
+            elif runtime[4] < 3 and runtime[4] >= 2:
                 time.sleep(3 * 60)
                 pag.click(self.shuaxinbtnx, self.shuaxinbtny)
+                time.sleep(3)
                 btnx, btny = self.findfigure(self.qd)
                 if btnx == -1 or btny == 0:
                     print("未找到确定，程序结束")
@@ -370,6 +375,7 @@ class ToPo:
             else:
                 time.sleep(4.5 * 60)
                 pag.click(self.shuaxinbtnx, self.shuaxinbtny)
+                time.sleep(3)
                 btnx, btny = self.findfigure(self.qd)
                 if btnx == -1 or btny == 0:
                     print("未找到确定，程序结束")
@@ -391,4 +397,4 @@ class ToPo:
 # pag.moveTo(f1[row][0],f1[row][1])
 
 tp = ToPo()
-tp.fightnN(5)
+tp.fightnN(3)

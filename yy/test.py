@@ -32,3 +32,4 @@ pag.moveTo(btnx, btny)
 # time.sleep((counter+1) % 2)
 # pag.click(duration=0.5)
 
+# 测试一下
