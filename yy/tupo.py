@@ -277,6 +277,7 @@ class ToPo:
 
     # 一次消耗三劵
     def fightOneFresh(self):
+        self.succ_num = 0
         self.fight_location()
         # 每成功一次增加记数，
         # 如果全部挑战完成，没有成功到达3次，返回-1
@@ -295,7 +296,7 @@ class ToPo:
 
 
             # 开始查找结束
-            btnx, btny = self.iterFind("jieshu", beginInterval=12, iternum=500)
+            btnx, btny = self.iterFind("jieshu", beginInterval=12, iternum=2000)
             if btnx == -1 or btny == 0:
                 print("未找到结束，程序结束")
                 return False
@@ -313,6 +314,9 @@ class ToPo:
         else :
             return -1
 
+
+
+
     def fightnN(self,k):
         for i in range(k):
             mt = self.Mytimer()
@@ -326,7 +330,7 @@ class ToPo:
             print(runtime)
             if runtime[0] > 0 or runtime[1] > 0 or runtime[2] > 0 or runtime[3] > 0:
                 pag.click(self.shuaxinbtnx, self.shuaxinbtny)
-                time.sleep(3)
+                time.sleep(5)
                 btnx,btny = self.findfigure(self.qd)
                 if btnx == -1 or btny == 0:
                     print("未找到确定，程序结束")
@@ -335,7 +339,7 @@ class ToPo:
                 pag.click(btnx, btny)
             elif runtime[4] >= 5:
                 pag.click(self.shuaxinbtnx, self.shuaxinbtny)
-                time.sleep(3)
+                time.sleep(5)
                 btnx, btny = self.findfigure(self.qd)
                 if btnx == -1 or btny == 0:
                     print("未找到确定，程序结束")
@@ -345,7 +349,7 @@ class ToPo:
             elif runtime[4] < 5 and runtime[4] >=4 :
                 time.sleep(1*60)
                 pag.click(self.shuaxinbtnx, self.shuaxinbtny)
-                time.sleep(3)
+                time.sleep(5)
                 btnx, btny = self.findfigure(self.qd)
                 if btnx == -1 or btny == 0:
                     print("未找到确定，程序结束")
@@ -355,7 +359,7 @@ class ToPo:
             elif runtime[4] < 4 and runtime[4] >= 3:
                 time.sleep(2 * 60)
                 pag.click(self.shuaxinbtnx, self.shuaxinbtny)
-                time.sleep(3)
+                time.sleep(5)
                 btnx, btny = self.findfigure(self.qd)
                 if btnx == -1 or btny == 0:
                     print("未找到确定，程序结束")
@@ -365,7 +369,7 @@ class ToPo:
             elif runtime[4] < 3 and runtime[4] >= 2:
                 time.sleep(3 * 60)
                 pag.click(self.shuaxinbtnx, self.shuaxinbtny)
-                time.sleep(3)
+                time.sleep(5)
                 btnx, btny = self.findfigure(self.qd)
                 if btnx == -1 or btny == 0:
                     print("未找到确定，程序结束")
@@ -375,7 +379,7 @@ class ToPo:
             else:
                 time.sleep(4.5 * 60)
                 pag.click(self.shuaxinbtnx, self.shuaxinbtny)
-                time.sleep(3)
+                time.sleep(5)
                 btnx, btny = self.findfigure(self.qd)
                 if btnx == -1 or btny == 0:
                     print("未找到确定，程序结束")
@@ -397,4 +401,4 @@ class ToPo:
 # pag.moveTo(f1[row][0],f1[row][1])
 
 tp = ToPo()
-tp.fightnN(3)
+tp.fightnN(5)
