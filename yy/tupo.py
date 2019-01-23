@@ -296,7 +296,7 @@ class ToPo:
 
 
             # 开始查找结束
-            btnx, btny = self.iterFind("jieshu", beginInterval=12, iternum=2000)
+            btnx, btny = self.iterFind("jieshu", beginInterval=12, iternum=4000)
             if btnx == -1 or btny == 0:
                 print("未找到结束，程序结束")
                 return False
@@ -327,6 +327,7 @@ class ToPo:
             time.sleep(3)
             mt.stop()
             runtime = mt.lasted
+            runtime[4] -= 1
             print(runtime)
             if runtime[0] > 0 or runtime[1] > 0 or runtime[2] > 0 or runtime[3] > 0:
                 pag.click(self.shuaxinbtnx, self.shuaxinbtny)
