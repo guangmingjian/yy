@@ -327,7 +327,8 @@ class ToPo:
             time.sleep(3)
             mt.stop()
             runtime = mt.lasted
-            runtime[4] -= 1
+            rt5 = float(runtime[5])/60
+            runtime[4] = runtime[4] + rt5
             print(runtime)
             if runtime[0] > 0 or runtime[1] > 0 or runtime[2] > 0 or runtime[3] > 0:
                 pag.click(self.shuaxinbtnx, self.shuaxinbtny)
