@@ -49,9 +49,13 @@ def tiaozhan():
 def renwu():
     btnx = 0
     btny = 0
-    testbutton = pag.locateOnScreen('image/renwu.jpg',confidence=confi)
-    if testbutton != None:
+    try:
+        testbutton = pag.locateOnScreen('image/renwu.jpg',confidence=confi)
         btnx, btny = pag.center(testbutton)
+    except Exception as e:
+        print("未找到任务")
+
+
     return btnx, btny
 
 
@@ -71,27 +75,37 @@ def kaishizhandou():
 def shengli():
     btnx = 0
     btny = 0
-    testbutton = pag.locateOnScreen('image/shengli.jpg',confidence=confi)
-    if testbutton != None:
+    try:
+        testbutton = pag.locateOnScreen('image/shengli.jpg', confidence=confi)
         btnx, btny = pag.center(testbutton)
+    except Exception as e:
+        print("未找到胜利")
+
+
     return btnx, btny
 
 # 找到准备
 def zhunbei():
     btnx = 0
     btny = 0
-    testbutton = pag.locateOnScreen('image/zhunbei.jpg',confidence=confi)
-    if testbutton != None:
+    try:
+        testbutton = pag.locateOnScreen('image/zhunbei.jpg', confidence=confi)
         btnx, btny = pag.center(testbutton)
+    except Exception as e:
+        print
+        "I/O error({0}): {1}".format(e.errno, e.strerror)
     return btnx, btny
 
 
 def yuhunfinish():
     btnx = 0
     btny = 0
-    testbutton = pag.locateOnScreen('image/yuhunfinish.jpg')
-    if testbutton != None:
+
+    try:
+        testbutton = pag.locateOnScreen('image/yuhunfinish.jpg')
         btnx, btny = pag.center(testbutton)
+    except Exception as e:
+        print("未找到结束")
     return btnx, btny
 
 
@@ -169,16 +183,16 @@ def iterFind(method, beginInterval=defaultInterval, iternum=endIter, iterInterva
 def yuhun(iter):
     counter = 0
     while (counter < iter):
-        # 开始查找挑战
-        btnx, btny = iterFind("kaishizhandou", beginInterval=beginfightInterval, iternum=500)
-        if btnx == -1 or btny == 0:
-            print("未找到开始战斗，程序结束")
-            return False
-        btnx = btnx + random.randint(-maxrand, maxrand)
-        pag.moveTo(btnx, btny)
-        #if counter > 0:
-        #    time.sleep((counter - 1) % 2)
-        pag.click(duration=0.5)
+        # # 开始查找挑战
+        # btnx, btny = iterFind("kaishizhandou", beginInterval=beginfightInterval, iternum=500)
+        # if btnx == -1 or btny == 0:
+        #     print("未找到开始战斗，程序结束")
+        #     return False
+        # btnx = btnx + random.randint(-maxrand, maxrand)
+        # pag.moveTo(btnx, btny)
+        # #if counter > 0:
+        # #    time.sleep((counter - 1) % 2)
+        # pag.click(duration=0.5)
 
         # 开始查找胜利
         btnx, btny = iterFind("shengli", beginInterval=tosuccess, iternum=450)
@@ -200,8 +214,7 @@ def yuhun(iter):
         btny = btny + random.randint(120, 125)
         #time.sleep(counter%2)
         print("移动结束")
-        time.sleep(1)
-        pag.click(btnx, btny,duration=0.2)
+        time.sleep(1.2)
         pag.click(btnx, btny,duration=0.6)
         time.sleep(2)
         pag.click(btnx, btny,duration=0.2)
@@ -209,6 +222,6 @@ def yuhun(iter):
         counter += 1
         print("第%d次"%counter)
 
-
+#
 yuhun(ft)
 print("finish")

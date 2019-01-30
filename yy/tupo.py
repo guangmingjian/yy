@@ -277,8 +277,10 @@ class ToPo:
 
     # 一次消耗三劵
     def fightOneFresh(self):
+
         self.succ_num = 0
         self.fight_location()
+        print(self.fl)
         # 每成功一次增加记数，
         # 如果全部挑战完成，没有成功到达3次，返回-1
         for i in range(9):
@@ -296,7 +298,7 @@ class ToPo:
 
 
             # 开始查找结束
-            btnx, btny = self.iterFind("jieshu", beginInterval=12, iternum=4000)
+            btnx, btny = self.iterFind("jieshu", beginInterval=12, iternum=8000)
             if btnx == -1 or btny == 0:
                 print("未找到结束，程序结束")
                 return False
@@ -403,4 +405,4 @@ class ToPo:
 # pag.moveTo(f1[row][0],f1[row][1])
 
 tp = ToPo()
-tp.fightnN(5)
+tp.fightnN(10)
