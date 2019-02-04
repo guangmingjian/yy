@@ -25,3 +25,4 @@ def kaishizhandou():
 
 btnx,btny = kaishizhandou()
 pag.moveTo(btnx,btny-60)
+# 提交
