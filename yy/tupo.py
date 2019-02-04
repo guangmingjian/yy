@@ -30,7 +30,7 @@ class ToPo:
         self.fl = np.zeros([9,2],dtype=int) #保存鼠标点击九宫格的位置
         self.jjtp = 'image/jiejietupo/jiejietupo.jpg' #结界突破位置
         self.gpjl = 'image/jiejietupo/gongpojilu.jpg'  # 攻破记录的位置
-        self.sx = 'image/jiejietupo/shuaxin.jpg'  # 刷新的位置
+        self.sx = 'image/jiejietupo/zhenrong.jpg'  # 刷新的位置
         self.sx2 = 'image/jiejietupo/shuaxin2.jpg'  # 刷新的位置
         self.gr = 'image/jiejietupo/geren.jpg'  # 攻破记录的位置
         self.yyl= 'image/jiejietupo/yinyangliao.jpg'  # 刷新的位置
@@ -127,15 +127,12 @@ class ToPo:
         btnx = 0
         btny = 0
         testbutton = None
-        if self.first > 0:
-            testbutton = pag.locateOnScreen(self.sx)
-            self.first = 0
-        else:
-            testbutton = pag.locateOnScreen(self.sx2)
+
+        testbutton = pag.locateOnScreen(self.sx)
         if testbutton != None:
             btnx, btny = pag.center(testbutton)
             self.shuaxinbtnx = btnx
-            self.shuaxinbtny = btny
+            self.shuaxinbtny = btny-60
         return btnx, btny
 
     # 个人
