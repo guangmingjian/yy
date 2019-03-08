@@ -1,8 +1,8 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*- 
+# -*- coding: utf-8 -*-
 """
-@File    : 
-@Time    : 
+@File    :
+@Time    :
 @Author  : mingjian
 @Software: PyCharm
 @Desc    :
@@ -31,7 +31,7 @@ tosuccess = 25
 # 战斗时间
 fight_time = 20
 # 到结束的时间
-finish_time = 1
+finish_time = 10
 # 随机数最大值
 maxrand = 5
 confi = 0.8
@@ -49,9 +49,11 @@ def tiaozhan():
 def renwu():
     btnx = 0
     btny = 0
-    testbutton = pag.locateOnScreen('image/renwu.jpg',confidence=confi)
-    if testbutton != None:
+    try:
+        testbutton = pag.locateOnScreen('image/renwu.png',confidence=confi)
         btnx, btny = pag.center(testbutton)
+    except Exception as e:
+        print("未找到任务")
     return btnx, btny
 
 
@@ -59,9 +61,12 @@ def renwu():
 def kaishizhandou():
     btnx = 0
     btny = 0
-    testbutton = pag.locateOnScreen('image/kaishizhandou.jpg')
-    if testbutton != None:
+
+    try:
+        testbutton = pag.locateOnScreen('image/yuling/tiaozhan.png')
         btnx, btny = pag.center(testbutton)
+    except Exception as e:
+        print("未找到开始战斗")
     return btnx, btny
 
 
@@ -69,27 +74,33 @@ def kaishizhandou():
 def shengli():
     btnx = 0
     btny = 0
-    testbutton = pag.locateOnScreen('image/shengli.jpg',confidence=confi)
-    if testbutton != None:
+    try:
+        testbutton = pag.locateOnScreen('image/shengli.png', confidence=confi)
         btnx, btny = pag.center(testbutton)
+    except Exception as e:
+        print("未找到胜利")
     return btnx, btny
 
-# 找到准备
-def zhunbei():
+# 找到失败
+def shibai():
     btnx = 0
     btny = 0
-    testbutton = pag.locateOnScreen('image/zhunbei.jpg',confidence=confi)
-    if testbutton != None:
+    try:
+        testbutton = pag.locateOnScreen('image/yuling/dianjijixu.jpg', confidence=confi)
         btnx, btny = pag.center(testbutton)
+    except Exception as e:
+        print("未找到结束")
     return btnx, btny
 
 
 def yuhunfinish():
     btnx = 0
     btny = 0
-    testbutton = pag.locateOnScreen('image/dianjijixu.jpg')
-    if testbutton != None:
+    try:
+        testbutton = pag.locateOnScreen('image/yuling/dianjijixu.jpg',confidence=confi)
         btnx, btny = pag.center(testbutton)
+    except Exception as e:
+        print("未找到结束")
     return btnx, btny
 
 
@@ -101,10 +112,10 @@ def methodMap(method):
         pag.click(duration=0.2)
     if method == "yuhunfinish":
         btnx, btny = yuhunfinish()
+        if btnx < 1 and btny < 1 :
+            btnx, btny = shibai()
     elif method == "tiaozhan":
         btnx, btny = tiaozhan()
-    elif method == "zhunbei":
-        btnx, btny = zhunbei()
     elif method == "kaishizhandou":
         btnx, btny = kaishizhandou()
     elif method == "shengli":
@@ -176,31 +187,30 @@ def yuhun(iter):
         pag.moveTo(btnx, btny)
         #if counter > 0:
         #    time.sleep((counter - 1) % 2)
-        pag.click(duration=0.5)
+        pag.click(duration=2)
 
-        # 开始查找胜利
-        btnx, btny = iterFind("shengli", beginInterval=tosuccess, iternum=450)
-        if btnx == -1 or btny == 0:
-            print("未找到开始战斗，程序结束")
-            return False
-        btnx = btnx + random.randint(-maxrand-10, maxrand+10)
-        btny = btny + random.randint(-maxrand, maxrand)
-        pag.moveTo(btnx, btny)
-        #time.sleep((counter+1) % 2)
-        pag.click(duration=0.2)
+        # # 开始查找胜利
+        # btnx, btny = iterFind("shengli", beginInterval=tosuccess, iternum=450)
+        # if btnx == -1 or btny == 0:
+        #     print("未找到开始战斗，程序结束")
+        #     return False
+        # btnx = btnx + random.randint(-maxrand-10, maxrand+10)
+        # btny = btny + random.randint(-maxrand, maxrand)
+        # pag.moveTo(btnx, btny)
+        # #time.sleep((counter+1) % 2)
+        # pag.click(duration=0.2)
 
         # 查找结束标志
-        btnx, btny = iterFind("yuhunfinish", beginInterval=finish_time, iternum=500)
+        btnx, btny = iterFind("yuhunfinish", beginInterval=finish_time, iternum=5500)
         if btnx == -1 or btny == 0:
             print("未找到结束标志，程序出错")
             return False
-        btnx = btnx + random.randint(-maxrand - 50, maxrand + 50)
+        btnx = btnx + random.randint(-maxrand - 20, maxrand + 20)
         btny = btny + random.randint(-maxrand, maxrand)
         #time.sleep(counter%2)
         print("移动结束")
-        time.sleep(1.2)
+        time.sleep(10)
         pag.click(btnx, btny,duration=0.6)
-        time.sleep(2)
         pag.click(btnx, btny,duration=0.2)
         print("点击结束")
         counter += 1

@@ -39,6 +39,7 @@ class ToPo:
         self.js = 'image/jiejietupo/jieshu.jpg'  # 结束的位置
         self.sb = 'image/jiejietupo/shibai.jpg'  # 失败的位置
         self.qd = 'image/jiejietupo/queding.jpg'  # 确定的位置
+        self.renw = 'image/renwu.jpg'  # 确定的位置
         self.first = 1
         self.shuaxinbtnx = 0
         self.shuaxinbtny = 0
@@ -203,18 +204,32 @@ class ToPo:
         btnx3, btny3 = self.shuaxin()
         btnx4, btny4 = self.geren()
         btnx5, btny5 = self.yinyangliao()
-        self.fl[0] = [btnx1,btny4]
-        self.fl[1] = [btnx1, btnx5]
-        self.fl[2] = [btnx1, btny5]
-        self.fl[3] = [btnx2, btny4]
-        self.fl[4] = [btnx2, btnx5]
-        self.fl[5] = [btnx2, btny5]
-        self.fl[6] = [btnx3, btny4]
-        self.fl[7] = [btnx3, btnx5]
-        self.fl[8] = [btnx3, btny5]
+        self.fl[0] = [btnx1+5,btny4]
+        self.fl[1] = [btnx1+5, btnx5]
+        self.fl[2] = [btnx1+5, btny5]
+        self.fl[3] = [btnx2+5, btny4]
+        self.fl[4] = [btnx2+5, btnx5]
+        self.fl[5] = [btnx2+5, btny5]
+        self.fl[6] = [btnx3+5, btny4]
+        self.fl[7] = [btnx3+5, btnx5]
+        self.fl[8] = [btnx3+5, btny5]
         return self.fl
 
+    # 找到任务
+    def renwu(self):
+        btnx = 0
+        btny = 0
+        testbutton = pag.locateOnScreen(self.renw)
+        if testbutton != None:
+            btnx, btny = pag.center(testbutton)
+        return btnx, btny
+
     def methodMap(self,method):
+        rbtnx, rbtny = self.renwu()
+        if rbtnx > 0 and rbtny > 0:
+            pag.moveTo(rbtnx, rbtny)
+            # time.sleep((counter+1) % 2)
+            pag.click(duration=0.2)
         if method == "jingong":
             btnx, btny = self.jingong()
         elif method == "jieshu":

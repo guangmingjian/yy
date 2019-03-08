@@ -49,9 +49,12 @@ def tiaozhan():
 def renwu():
     btnx = 0
     btny = 0
-    testbutton = pag.locateOnScreen('image/renwu.jpg',confidence=confi)
-    if testbutton != None:
+    try:
+        testbutton = pag.locateOnScreen('image/renwu.png', confidence=confi)
         btnx, btny = pag.center(testbutton)
+    except Exception as e:
+        print("未找到任务")
+
     return btnx, btny
 
 
@@ -59,9 +62,11 @@ def renwu():
 def kaishizhandou():
     btnx = 0
     btny = 0
-    testbutton = pag.locateOnScreen('image/kaishizhandou.jpg')
-    if testbutton != None:
+    try:
+        testbutton = pag.locateOnScreen('image/kaishizhandou.jpg')
         btnx, btny = pag.center(testbutton)
+    except Exception as e:
+        print("未找到开始战斗")
     return btnx, btny
 
 
@@ -69,9 +74,11 @@ def kaishizhandou():
 def shengli():
     btnx = 0
     btny = 0
-    testbutton = pag.locateOnScreen('image/shengli.jpg',confidence=confi)
-    if testbutton != None:
+    try:
+        testbutton = pag.locateOnScreen('image/shengli.png', confidence=confi)
         btnx, btny = pag.center(testbutton)
+    except Exception as e:
+        print("未找到胜利")
     return btnx, btny
 
 # 找到准备
@@ -87,9 +94,11 @@ def zhunbei():
 def yuhunfinish():
     btnx = 0
     btny = 0
-    testbutton = pag.locateOnScreen('image/dianjijixu.jpg')
-    if testbutton != None:
+    try:
+        testbutton = pag.locateOnScreen('image/dianjijixu.png')
         btnx, btny = pag.center(testbutton)
+    except Exception as e:
+        print("未找到结束")
     return btnx, btny
 
 
@@ -207,5 +216,5 @@ def yuhun(iter):
         print("第%d次"%counter)
 
 
-yuhun(ft)
-print("finish")
+# yuhun(ft)
+# print("fini
