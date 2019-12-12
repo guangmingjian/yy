@@ -187,7 +187,8 @@ def yuhun(iter):
         btny = btny + random.randint(-maxrand, maxrand)
         pag.moveTo(btnx, btny)
         #time.sleep((counter+1) % 2)
-        pag.click(duration=0.2)
+        pag.click(btnx, btny,duration=0.2)
+        pag.click(btnx, btny, duration=0.2)
 
         # 查找结束标志
         btnx, btny = iterFind("yuhunfinish", beginInterval=finish_time, iternum=500)

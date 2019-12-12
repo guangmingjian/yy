@@ -18,6 +18,7 @@ import ctypes, sys
 pag.FAILSAFE = False
 imgroot = "image/jiejietupo/"
 imgformat = ".png"
+import yy.BasicMethod as bm
 # 找到挑战
 class ToPo:
     endIter = 30
@@ -208,7 +209,7 @@ class ToPo:
         btnx, btny = self.methodMap(methodname)
         while (btnx > 0):
 
-            time.sleep(3)
+            time.sleep(1)
             pag.moveTo(x + random.randint(-10, 10), y + random.randint(-5, 5))
             # if counter > 0:
             #    time.sleep((counter - 1) % 2)
@@ -355,6 +356,7 @@ class ToPo:
 
         for i in range(9):
             time.sleep(5)
+            self.jiancha("jieshu", btnx, btny)
             btnx,btny = self.findpic(imgroot + "3timejieshu" + imgformat, 0.95)
             if  btnx > 0:
                 print("寻找到3次结束")
@@ -387,6 +389,8 @@ class ToPo:
             pag.click(duration=0.4)
             time.sleep(2)
             self.jiancha("jieshu",btnx, btny)
+            time.sleep(5)
+            self.jiancha("jieshu", btnx, btny)
 
 
 
@@ -404,68 +408,20 @@ class ToPo:
             # pag.click(self.fl[7][0], self.fl[7][1])
             # time.sleep(3)
             mt.stop()
-            runtime = mt.lasted
-            rt5 = float(runtime[5])/60
-            runtime[4] = runtime[4] + rt5
-            print(runtime)
-            if runtime[0] > 0 or runtime[1] > 0 or runtime[2] > 0 or runtime[3] > 0:
-                pag.click(self.shuaxinbtnx, self.shuaxinbtny)
-                time.sleep(5)
-                btnx,btny = self.findfigure(self.qd)
-                if btnx == -1 or btny == 0:
-                    print("未找到确定，程序结束")
-                    return False
-                btnx = btnx + random.randint(-self.maxrand - 5, self.maxrand + 5)
-                pag.click(btnx, btny)
-            elif runtime[4] >= 5:
-                pag.click(self.shuaxinbtnx, self.shuaxinbtny)
-                time.sleep(5)
-                btnx, btny = self.findfigure(self.qd)
-                if btnx == -1 or btny == 0:
-                    print("未找到确定，程序结束")
-                    return False
-                btnx = btnx + random.randint(-self.maxrand - 5, self.maxrand + 5)
-                pag.click(btnx, btny)
-            elif runtime[4] < 5 and runtime[4] >=4 :
-                time.sleep(1*60)
-                pag.click(self.shuaxinbtnx, self.shuaxinbtny)
-                time.sleep(5)
-                btnx, btny = self.findfigure(self.qd)
-                if btnx == -1 or btny == 0:
-                    print("未找到确定，程序结束")
-                    return False
-                btnx = btnx + random.randint(-self.maxrand - 5, self.maxrand + 5)
-                pag.click(btnx, btny)
-            elif runtime[4] < 4 and runtime[4] >= 3:
-                time.sleep(2 * 60)
-                pag.click(self.shuaxinbtnx, self.shuaxinbtny)
-                time.sleep(5)
-                btnx, btny = self.findfigure(self.qd)
-                if btnx == -1 or btny == 0:
-                    print("未找到确定，程序结束")
-                    return False
-                btnx = btnx + random.randint(-self.maxrand - 5, self.maxrand + 5)
-                pag.click(btnx, btny)
-            elif runtime[4] < 3 and runtime[4] >= 2:
-                time.sleep(3 * 60)
-                pag.click(self.shuaxinbtnx, self.shuaxinbtny)
-                time.sleep(5)
-                btnx, btny = self.findfigure(self.qd)
-                if btnx == -1 or btny == 0:
-                    print("未找到确定，程序结束")
-                    return False
-                btnx = btnx + random.randint(-self.maxrand - 5, self.maxrand + 5)
-                pag.click(btnx, btny)
-            else:
-                time.sleep(4.5 * 60)
-                pag.click(self.shuaxinbtnx, self.shuaxinbtny)
-                time.sleep(5)
-                btnx, btny = self.findfigure(self.qd)
-                if btnx == -1 or btny == 0:
-                    print("未找到确定，程序结束")
-                    return False
-                btnx = btnx + random.randint(-self.maxrand - 5, self.maxrand + 5)
-                pag.click(btnx, btny)
+
+            btnx,btny = bm.iterfindpic(imgroot+"shuaxin"+imgformat,1,10,360)
+            if btnx > 0 :
+                pag.click(self.shuaxinbtnx+random.randint(-5,5), self.shuaxinbtny)
+            time.sleep(5)
+            btnx, btny = self.findfigure(self.qd)
+            if btnx == -1 or btny == 0:
+                print("未找到确定，程序结束")
+                return False
+            btnx = btnx + random.randint(-self.maxrand - 5, self.maxrand + 5)
+            pag.click(btnx, btny)
+            print("***********************该次结束********************")
+
+
 
 
 

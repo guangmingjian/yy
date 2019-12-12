@@ -15,7 +15,7 @@ import os
 import random
 import ctypes, sys
 import yy.closegame as cg
-pag.FAILSAFE = False
+
 closenum = 4000
 pag.PAUSE = 0.4
 endIter = 30
@@ -38,7 +38,7 @@ finish_time = 1
 # 随机数最大值
 maxrand = 5
 confi = 0.8
-
+pag.FAILSAFE = False
 # 找到挑战
 def tiaozhan():
     btnx = 0
@@ -173,7 +173,7 @@ def iterFind(method, beginInterval=defaultInterval, iternum=endIter, iterInterva
 def jiancha(methodname,x,y):
     btnx, btny = methodMap(methodname)
     while (btnx > 0):
-        btnx, btny = methodMap(methodname)
+
         time.sleep(1)
         pag.moveTo(x+random.randint(-10,10),y+random.randint(-5,5))
         # if counter > 0:
@@ -181,6 +181,7 @@ def jiancha(methodname,x,y):
         print("检查"+methodname)
         pag.click(duration=0.2)
         print("页面没跳转，继续点击")
+        btnx, btny = methodMap(methodname)
     print("页面已经跳转")
 
 # 刷御魂，iter是次数
@@ -188,17 +189,17 @@ def yuhun(iter):
     counter = 0
     while (counter < iter):
         # 开始查找挑战
-        # btnx, btny = iterFind("kaishizhandou", beginInterval=beginfightInterval, iternum=500)
-        # if btnx == -1 or btny == 0:
-        #     print("未找到开始战斗，程序结束")
-        #     return False
-        # btnx = btnx + random.randint(-maxrand, maxrand)
-        # pag.moveTo(btnx, btny)
-        # # if counter > 0:
-        # #    time.sleep((counter - 1) % 2)
-        # pag.click(duration=0.5)
-        #
-        # jiancha("kaishizhandou",btnx, btny)
+        btnx, btny = iterFind("kaishizhandou", beginInterval=beginfightInterval, iternum=500)
+        if btnx == -1 or btny == 0:
+            print("未找到开始战斗，程序结束")
+            return False
+        btnx = btnx + random.randint(-maxrand, maxrand)
+        pag.moveTo(btnx, btny)
+        # if counter > 0:
+        #    time.sleep((counter - 1) % 2)
+        pag.click(duration=0.5)
+
+        jiancha("kaishizhandou",btnx, btny)
 
 
 
