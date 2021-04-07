@@ -15,6 +15,7 @@ import os
 import random
 import ctypes, sys
 import closegame as cg
+import BasicMethod as BM
 pag.FAILSAFE = False
 closenum = 4000
 pag.PAUSE = 0.4
@@ -199,39 +200,13 @@ def yuhun(iter):
         # pag.click(duration=0.5)
         #
         # jiancha("kaishizhandou",btnx, btny)
+        time.sleep(18)
+        slflag = BM.shengliandjieshu(endIter)
 
-
-
-        # 开始查找胜利
-        btnx, btny = iterFind("shengli", beginInterval=tosuccess, iternum=450)
-        if btnx == -1 or btny == 0:
-            print("未找到开始战斗，程序结束")
-            return False
-        btnx = btnx + random.randint(-maxrand-10, maxrand+10)
-        btny = btny + random.randint(-maxrand, maxrand)
-        pag.moveTo(btnx, btny)
-        #time.sleep((counter+1) % 2)
-        pag.click(btnx, btny,duration=0.2)
-        pag.click(btnx, btny, duration=0.2)
-
-        # 查找结束标志
-        btnx, btny = iterFind("yuhunfinish", beginInterval=finish_time, iternum=500)
-        if btnx == -1 or btny == 0:
-            print("未找到结束标志，程序出错")
-            return False
-
-        btnx = 941 + random.randint(-maxrand - 30, maxrand + 30)
-        btny = 569 + random.randint(0, 20)
-        #time.sleep(counter%2)
-        print("移动结束")
-        time.sleep(0.2)
-        pag.click(btnx, btny,duration=0.6)
-
-        jiancha("yuhunfinish",btnx, btny)
-        print("点击结束")
-        counter += 1
-        print("第%d次"%counter)
-
+        if slflag:
+            print("点击结束")
+            counter += 1
+            print("*********************第%d次" % counter)
 
 
 def is_admin():

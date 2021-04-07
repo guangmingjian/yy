@@ -3,25 +3,34 @@
 import pyautogui as pag
 import time
 import os
-pag.PAUSE = 0.4
-
-endIter = 30
+import random
+import ctypes, sys
+import closegame as cg
+import BasicMethod as BM
+BM.cgflag = False
+pag.PAUSE = 0.01
+fight_time = 50
+pag.FAILSAFE = False
+endIter = 300
 # 每次默认等待的时间
-defaultInterval = 6
+defaultInterval = 0.1
 # 每次迭代查找的时间间隔
-interval = 2
+interval = 0.001
 # 从战斗到准备的时间间隔
-fight_prepare_interval = 4
+fight_prepare_interval = 0.2
 # 开始战斗的时间间隔
-beginfightInterval = 4
+beginfightInterval = 0.2
 # 战斗时间
-fight_time = 30
-zhandouimgLoc = "image/fuben/zhandou.jpg"
+fight_time =0.1
+maxrand = 5
+zhandouimgLoc = "image/fuben/zhandou.png"
+imgroot = "image/"
+imgtype = ".png"
 # 找到搜索
 def sousuo() :
     btnx = 0
     btny = 0
-    testbutton = pag.locateOnScreen('image/fuben/sousuo.jpg')
+    testbutton = pag.locateOnScreen('image/fuben/sousuo.png')
     if testbutton != None:
         btnx, btny = pag.center(testbutton)
     return btnx,btny
@@ -37,14 +46,14 @@ def zhandou() :
 def zhunbei() :
     btnx = 0
     btny = 0
-    testbutton = pag.locateOnScreen('image/zhunbei.jpg')
+    testbutton = pag.locateOnScreen('image/zhunbei.png')
     if testbutton != None:
         btnx, btny = pag.center(testbutton)
     return btnx,btny
 def unitfinish() :
     btnx = 0
     btny = 0
-    testbutton = pag.locateOnScreen('image/yuhunfinish.jpg')
+    testbutton = pag.locateOnScreen('image/yuhunfinish.png')
     if testbutton != None:
         btnx, btny = pag.center(testbutton)
     return btnx,btny
@@ -52,7 +61,7 @@ def unitfinish() :
 def xiaodeng():
     btnx = 0
     btny = 0
-    testbutton = pag.locateOnScreen('image/fuben/xiaodeng.jpg',confidence=.8)
+    testbutton = pag.locateOnScreen('image/fuben/xiaodeng.png',confidence=.8)
     if testbutton != None:
         btnx, btny = pag.center(testbutton)
     return btnx, btny
@@ -60,7 +69,7 @@ def xiaodeng():
 def baoxiang() :
     btnx = 0
     btny = 0
-    testbutton = pag.locateOnScreen('image/fuben/baoxiang.jpg',confidence=.8)
+    testbutton = pag.locateOnScreen('image/fuben/baoxiang.png',confidence=.8)
     if testbutton != None:
         btnx, btny = pag.center(testbutton)
     return btnx,btny
@@ -68,14 +77,38 @@ def baoxiang() :
 def jiangli() :
     btnx = 0
     btny = 0
-    testbutton = pag.locateOnScreen('image/fuben/jiangli.jpg')
+    testbutton = pag.locateOnScreen('image/fuben/jiangli.png')
     if testbutton != None:
         btnx, btny = pag.center(testbutton)
     return btnx-100,btny
 
 def methodMap(method):
     if method == "unitfinish":
-        btnx, btny = unitfinish()
+        # 开始查找胜利
+        btnx, btny = BM.iterfindpic(imgroot + "shengli" + imgtype, confi=0.8, internaltime=0.1, mosttime=endIter)
+        if btnx == -1 or btny == 0:
+            print("未找到胜利，程序结束")
+            return False
+        btnx = btnx + random.randint(-maxrand - 10, maxrand + 10)
+        btny = btny + random.randint(-maxrand, maxrand)
+        pag.moveTo(btnx, btny)
+        # time.sleep((counter+1) % 2)
+        pag.click(btnx, btny, duration=0.2)
+        pag.click(btnx, btny, duration=0.2)
+
+        # 查找结束标志
+        btnx, btny = BM.iterfindpic(imgroot + "dianjijixu" + imgtype, confi=0.8, internaltime=0.1, mosttime=endIter)
+
+        btnx = 941 + random.randint(-maxrand - 30, maxrand + 30)
+        btny = 569 + random.randint(0, 20)
+        # time.sleep(counter%2)
+        print("移动结束")
+        time.sleep(0.8)
+        pag.click(btnx, btny, duration=0.2)
+
+        BM.jiancha(imgroot + "dianjijixu" + imgtype, 0.8, btnx, btny, 0.4)
+        print("点击结束")
+
     elif method == "sousuo":
         btnx, btny = sousuo()
     elif method == "zhunbei":
@@ -138,7 +171,7 @@ def iterFind(method, beginInterval=defaultInterval, iternum=endIter, iterInterva
 def withoutFight() :
     btnx = 0
     btny = 0
-    testbutton = pag.locateOnScreen('image/fuben/zhiren.jpg')
+    testbutton = pag.locateOnScreen('image/fuben/zhiren.png')
     if testbutton != None:
         btnx, btny = pag.center(testbutton)
     return btnx,btny-100
@@ -171,7 +204,7 @@ def fight():
     pag.moveTo(btnx, btny,duration=0.1)
     pag.click(duration=0.1)
     # 有可能没有点击到这个怪物,怪物进行了移动
-    time.sleep(10)
+    time.sleep(2)
     fightbutton = pag.locateOnScreen(zhandouimgLoc)
     # # 进入到了战斗画面
     # if fightbutton == None:
@@ -197,7 +230,7 @@ def fight():
         print("已经开始作战了")
         # 查找准备并点击准备
         # 点击准备
-        btnx, btny = iterFind("zhunbei", iternum=4)
+        btnx, btny = iterFind("zhunbei", iternum=endIter)
         if btnx > 0 or btny > 0:
             pag.moveTo(btnx, btny)
             pag.click(duration=0.5)
@@ -213,7 +246,7 @@ def onefight():
         return False
     # 开始查找单个怪物的结束
     # 查找结束标志
-    btnx, btny = iterFind("unitfinish", beginInterval=fight_time, iternum=60)
+    btnx, btny = iterFind("unitfinish", beginInterval=fight_time, iternum=endIter)
     if btnx == -1 or btny == 0:
         print("未找到结束标志，程序出错")
         return False
@@ -222,7 +255,7 @@ def onefight():
 
 def beginSousuo():
     # 开始查找搜索
-    btnx, btny = iterFind("sousuo", beginInterval=beginfightInterval, iternum=5)
+    btnx, btny = iterFind("sousuo", beginInterval=beginfightInterval, iternum=endIter)
     if btnx == -1 or btny == 0:
         print("未找到搜索，程序结束")
         return False
@@ -256,8 +289,8 @@ def fuben(iter):
 # fuben(3)
 
 # fuben(2)
-yhfinbtnx,yhfinbtny = xiaodeng()
-pag.moveTo(yhfinbtnx,yhfinbtny)
+# yhfinbtnx,yhfinbtny = xiaodeng()
+# pag.moveTo(yhfinbtnx,yhfinbtny)
 # pag.click()
 # time.sleep(2)
 # yhfinbtnx,yhfinbtny = jiangli()
@@ -288,3 +321,4 @@ pag.moveTo(yhfinbtnx,yhfinbtny)
 #     zbiter += 1
 #     pag.moveTo(yhfinbtnx, yhfinbtny)
 #     pag.click(duration=0.2)
+fuben(fight_time)

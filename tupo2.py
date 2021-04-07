@@ -27,7 +27,7 @@ class ToPo:
     # 每次默认等待的时间
     defaultInterval = 4
     # 每次迭代查找的时间间隔
-    interval = 0.5
+    interval = 0.05
     maxrand = 10
 
     def __init__(self):
@@ -46,6 +46,7 @@ class ToPo:
         self.js = 'image/jiejietupo/jieshu.png'  # 结束的位置
         self.sb = 'image/jiejietupo/shibai.png'  # 失败的位置
         self.qd = 'image/jiejietupo/queding.png'  # 确定的位置
+        self.guitun = 'image/jiejietupo/guitun.png'  # 确定的位置
         self.renw = 'image/renwu.png'  # 确定的位置
         self.first = 1
         self.shuaxinbtnx = 0
@@ -193,6 +194,14 @@ class ToPo:
             btnx, btny = pag.center(testbutton)
         return btnx, btny
 
+    # 鬼吞
+    def chazhaoguitun(self):
+        btnx = 0
+        btny = 0
+        testbutton = pag.locateOnScreen(self.guitun, confidence=0.8)
+        if testbutton != None:
+            btnx, btny = pag.center(testbutton)
+        return btnx, btny
     # 结束
     def jieshu(self):
         btnx = 0
@@ -228,13 +237,13 @@ class ToPo:
         btnx4, btny4 = self.geren()
         btnx5, btny5 = self.yinyangliao()
 
-        x = [272, 574, 870]
-        y = [160, 273, 404]
+        x = [226, 422, 644]
+        y = [186, 277, 362]
 
         # self.f1 = [[a, b] for a, b in zip(x, y)]
         for i in x:
             for j in y:
-                xbias = np.random.randint(-30,30)
+                xbias = np.random.randint(-20,20)
                 ybias = np.random.randint(-5,5)
                 self.fl.append([i+xbias,j+ybias])
         # self.fl[0] = [btnx1,btny3]
@@ -270,6 +279,8 @@ class ToPo:
             btnx, btny = self.jieshu()
             if btnx < 1 and btny < 1:
                 btnx, btny = self.shibai()
+        elif method == "guitun":
+            btnx, btny = self.chazhaoguitun()
         else:
             return -1, -1
         return btnx, btny
@@ -356,8 +367,8 @@ class ToPo:
 
         for i in range(9):
             time.sleep(5)
-            btnx = 941 + random.randint(-self.maxrand - 10, self.maxrand + 10)
-            btny = 549 + random.randint(-self.maxrand - 10, self.maxrand + 10)
+            btnx = 783 + random.randint(-self.maxrand - 10, self.maxrand + 10)
+            btny = 500 + random.randint(-self.maxrand - 10, self.maxrand + 10)
             self.jiancha("jieshu", btnx, btny)
             btnx,btny = self.findpic(imgroot + "3timejieshu" + imgformat, 0.95)
             if  btnx > 0:
@@ -378,14 +389,21 @@ class ToPo:
             # time.sleep((counter+1) % 2)
             pag.click(duration=0.4)
 
-
-            # 开始查找结束
-            btnx, btny = self.iterFind("jieshu", beginInterval=12, iternum=8000)
+            # 560 346
+            btnx, btny = self.iterFind("guitun", beginInterval=3, iternum=1000)
             if btnx == -1 or btny == 0:
                 print("未找到结束，程序结束")
                 return False
-            btnx = 941 + random.randint(-self.maxrand - 10, self.maxrand + 10)
-            btny = 549 + random.randint(-self.maxrand- 10, self.maxrand + 10)
+            time.sleep(2)
+            pag.click(560,346+random.randint(-5,5))
+
+            # 开始查找结束
+            btnx, btny = self.iterFind("jieshu", beginInterval=5, iternum=8000)
+            if btnx == -1 or btny == 0:
+                print("未找到结束，程序结束")
+                return False
+            btnx = 783 + random.randint(-self.maxrand - 10, self.maxrand + 10)
+            btny = 500 + random.randint(-self.maxrand- 10, self.maxrand + 10)
             pag.moveTo(btnx, btny)
             # time.sleep((counter+1) % 2)
             pag.click(duration=0.4)
@@ -438,17 +456,19 @@ class ToPo:
 # print(f1)
 # row = 8
 # pag.moveTo(f1[row][0],f1[row][1])
-def is_admin():
-    try:
-        return ctypes.windll.shell32.IsUserAnAdmin()
-    except:
-        return False
-if is_admin():
-    tp = ToPo()
-    tp.fightnN(10)
-else:
-    if sys.version_info[0] == 3:
-    	ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, __file__, None, 1)
-    else:#in python2.x
-        ctypes.windll.shell32.ShellExecuteW(None, u"runas", unicode(sys.executable), unicode(__file__), None, 1)
+# def is_admin():
+#     try:
+#         return ctypes.windll.shell32.IsUserAnAdmin()
+#     except:
+#         return False
+# if is_admin():
+#     tp = ToPo()
+#     tp.fightnN(10)
+# else:
+#     if sys.version_info[0] == 3:
+#     	ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, __file__, None, 1)
+#     else:#in python2.x
+#         ctypes.windll.shell32.ShellExecuteW(None, u"runas", unicode(sys.executable), unicode(__file__), None, 1)
 
+tp = ToPo()
+tp.fightnN(10)
